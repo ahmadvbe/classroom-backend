@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1767265382696,
+      "tag": "0000_flat_purifiers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773761262463,
+      "tag": "0001_brave_loki",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773761589389,
+      "tag": "0002_polite_franklin_richards",
+      "breakpoints": true
+    }
+  ]
+}
