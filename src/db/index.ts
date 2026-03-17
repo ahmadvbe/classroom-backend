@@ -7,4 +7,5 @@ if (!process.env.DATABASE_URL) {
 }
 
 const sql = neon(process.env.DATABASE_URL);
+// console.log("DATABASE_URL", sql);
 export const db = drizzle(sql);
