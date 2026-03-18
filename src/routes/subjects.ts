@@ -22,9 +22,11 @@ router.get("/", async (req, res) => {
     //     search being done at frontend  but our BE at that point wsnt yet accepting those props
     const { search, department, page = 1, limit = 10 } = req.query;
 
-    //3:26:33
-    const currentPage = Math.max(1, +page); //ensure that page num is at least 1
-    const limitPerPage = Math.max(1, +limit);
+    //3:26:33 3:42:50 coderabbit fix
+    // const currentPage = Math.max(1, +page); //ensure that page num is at least 1
+    // const limitPerPage = Math.max(1, +limit);
+    const currentPage = Math.max(1, parseInt(String(page),10) || 1); //ensure that page num is at least 1
+    const limitPerPage = Math.min(Math.max( parseInt(String(limit),10) || 10), 100);
 
     //3:27:10 how many records to skip to get to the next page
     const offset = (currentPage - 1) * limitPerPage;
@@ -43,9 +45,12 @@ router.get("/", async (req, res) => {
     }
 
     if (department) { //3:28:18 if department filter exist=>match department name
-      filterConditions.push(
-          ilike(departments.name,  //by pushing this additonal condition
-              `%${department}%`));
+      // filterConditions.push(
+      //     ilike(departments.name,  //by pushing this additonal condition
+      //         `%${department}%`));
+      //3:43:30 Coderabbitfix : this will protect us from SQL injections
+      const deptPattern = `%${String(department).replace(/[%_]/g, '\\$&')}%`
+      filterConditions.push(ilike(departments.name, deptPattern));
     }
 
     //3:28:38 combine all filters if they exist using the and operator coming from drizzle

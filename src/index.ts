@@ -20,13 +20,22 @@ import enrollmentsRouter from "./routes/enrollments.js";
 // import securityMiddleware from "./middleware/security.js";
 import { auth } from "./lib/auth.js";
 
+
 const app = express();
 const PORT = 8000;
+
+
+//3:41:20
+if(!process.env.FRONTEND_URL){
+    throw new Error("FRONTEND_URL is missing from the env file");
+}
 
 //  Enabling CORS 3:37:29 tells the browser which origin/methods and headers are safe to use
 //         so that the client and server can exchange data securely
 //    3:38:37 webstormproject/classroom-backend/src/index.ts
 //             we define the cors
+
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL, // React app URL 3:38:55
