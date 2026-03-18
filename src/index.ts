@@ -3,9 +3,11 @@
 //   .catch(() => console.log('APM not available in this environment'));
 
 //webstormproject/classroom-backend/src/index.ts  with junie 2:56:55
-import cors from "cors";
 // @ts-ignore
 import express from "express";
+// @ts-ignore
+import cors from "cors";
+
 // import { toNodeHandler } from "better-auth/node";
 
 import subjectsRouter from "./routes/subjects.js";
@@ -21,9 +23,13 @@ import { auth } from "./lib/auth.js";
 const app = express();
 const PORT = 8000;
 
+//  Enabling CORS 3:37:29 tells the browser which origin/methods and headers are safe to use
+//         so that the client and server can exchange data securely
+//    3:38:37 webstormproject/classroom-backend/src/index.ts
+//             we define the cors
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // React app URL
+    origin: process.env.FRONTEND_URL, // React app URL 3:38:55
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
     credentials: true, // allow cookies
   })
@@ -35,7 +41,12 @@ app.use(express.json());
 
 // app.use(securityMiddleware);
 
-// app.use("/api/subjects", subjectsRouter);
+//  3:33:16 src/index.ts
+//            create a new router for the subjects:
+app.use("/api/subjects",
+        subjectsRouter //src/routes/subjects.ts
+            );
+
 // app.use("/api/users", usersRouter);
 // app.use("/api/classes", classesRouter);
 // app.use("/api/departments", departmentsRouter);
