@@ -15,18 +15,20 @@ const securityMiddleware = async ( //accepting 3 params
   res: Response,
   next: NextFunction //depending on whether it rates the req as a threat or nt =>it can allow it to pass the next req or nt 5:25:$5
 ) => {
+  console.log("middleware is called ") //this is shown at the BE terminal
 
   // If NODE_ENV is TEST, skip security middleware 5:26:16
   if (process.env.NODE_ENV === "test") { //we dnt hve to do sec analyses on a test env
     return next();
   }
-
+  console.log("process.env.NODE_ENV ",process.env.NODE_ENV)
   try { //5:26:27 define the user role
     const role: RateLimitRole = req.user?.role ?? "guest"; //type.d.ts
     // RateLimitRole creation : 5:27:47 every request will pass through the auth middleware
     // which wlll get the user info and set user role
     // so we can allow certain types of users teacher or admins to make more requests than students 5:28:00
     //lets setup those limits 5:28:08
+    console.log("role of the user is ",role)
     let limit: number;
     let message: string;
 
@@ -53,6 +55,7 @@ const securityMiddleware = async ( //accepting 3 params
         break;
     }
 
+    console.log("limit of the user is ",limit)
     //5:29:34 Create a new ARCJET client
     const client = aj.withRule( //instance of arcjet created in the  webstormproject/classroom-backend/src/config/arcjet.ts
       slidingWindow({ //5:30:05
@@ -61,6 +64,7 @@ const securityMiddleware = async ( //accepting 3 params
         max: limit, //dynamic by setting it to the limit that depends on the user role 5:30:20
       })
     );
+
 
     //5:30:25 Interception of the Request
     const arcjetRequest: ArcjetNodeRequest = {
@@ -74,6 +78,7 @@ const securityMiddleware = async ( //accepting 3 params
 
     //5:31:15 Arcjet Decision making the decision for us based on the params defined for it
     const decision = await client.protect(arcjetRequest);
+    console.log("arcjet decision is ",decision)
 
     //here we can hve difference clauses depending on what the decision of the outcome is
     if (decision.isDenied() && decision.reason.isBot()) { //5:31:50 Bots access exposure
@@ -92,6 +97,7 @@ const securityMiddleware = async ( //accepting 3 params
 
     if (decision.isDenied() && decision.reason.isRateLimit()) { //5:33:00 Rate Limit
       return res.status(429).json({
+             // 5:37:00 other issue HTTP 429 standard for rate limiting instead of 403
         error: "Too Many Requests",
         message, //this message is dynamic depneding on the role under which is the user is authenticate
                   //it is rendered within the switch scenario
