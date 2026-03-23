@@ -17,7 +17,7 @@ import departmentsRouter from "./routes/departments.js";
 import statsRouter from "./routes/stats.js";
 import enrollmentsRouter from "./routes/enrollments.js";
 
-// import securityMiddleware from "./middleware/security.js";
+import securityMiddleware from "./middleware/security.js";
 import { auth } from "./lib/auth.js";
 
 
@@ -48,7 +48,9 @@ app.use(
 
 app.use(express.json());
 
-// app.use(securityMiddleware);
+//5:34:30  Head over to Our server **webstormproject/classroom-backend/src/index.ts**
+//     where we ll implement the security.ts middleware created
+app.use(securityMiddleware);
 
 //  3:33:16 src/index.ts
 //            create a new router for the subjects:

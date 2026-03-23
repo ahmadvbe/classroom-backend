@@ -31,6 +31,8 @@
     "types": ["node"]
   },
   "include": [
-    "../../../jsm-files/classroom-backend-main/src"
+    "src",
+    "src/**/.d.ts",
+    "./classroom-backend/src"
   ]
 }
