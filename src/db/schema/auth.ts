@@ -9,6 +9,9 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
+
+
+//5:12:25 BETTER AUTH RECOMMENDED TABLES FOR OUR AUTH
 const timestamps = {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")

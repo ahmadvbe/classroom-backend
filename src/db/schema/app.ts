@@ -64,63 +64,67 @@ export const subjects = pgTable("subjects", {
 
 
 
+// ###  5:13:10 lets do similar thing to **generate DB schemas for classes and enrollments**
+// webstormproject/Prompt-Classes- Enrollments-schemas-Backend.md
+// =>it added the drizzle orm schema in our app and it has been extended with classes and enrollments as requested
+// All the changes should be in the webstormproject/classroom-backend/src/db/schema/app.ts
+export const classes = pgTable(
+  "classes",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
 
-// export const classes = pgTable(
-//   "classes",
-//   {
-//     id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-//
-//     subjectId: integer("subject_id")
-//       .notNull()
-//       .references(() => subjects.id, { onDelete: "cascade" }),
-//     teacherId: text("teacher_id")
-//       .notNull()
-//       .references(() => user.id, { onDelete: "restrict" }),
-//
-//     inviteCode: varchar("invite_code", { length: 50 }).notNull().unique(),
-//     name: varchar("name", { length: 255 }).notNull(),
-//     bannerCldPubId: text("banner_cld_pub_id"),
-//     bannerUrl: text("banner_url"),
-//     capacity: integer("capacity").notNull().default(50),
-//     description: text("description"),
-//     status: classStatusEnum("status").notNull().default("active"),
-//     schedules: jsonb("schedules").$type<Schedule[]>().notNull(),
-//
-//     ...timestamps,
-//   },
-//   (table) => ({
-//     subjectIdIdx: index("classes_subject_id_idx").on(table.subjectId),
-//     teacherIdIdx: index("classes_teacher_id_idx").on(table.teacherId),
-//   })
-// );
+    subjectId: integer("subject_id")
+      .notNull()
+      .references(() => subjects.id, { onDelete: "cascade" }),
+    teacherId: text("teacher_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "restrict" }),
 
-// export const enrollments = pgTable(
-//   "enrollments",
-//   {
-//     id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-//
-//     studentId: text("student_id")
-//       .notNull()
-//       .references(() => user.id, { onDelete: "cascade" }),
-//     classId: integer("class_id")
-//       .notNull()
-//       .references(() => classes.id, { onDelete: "cascade" }),
-//
-//     ...timestamps,
-//   },
-//   (table) => ({
-//     studentIdIdx: index("enrollments_student_id_idx").on(table.studentId),
-//     classIdIdx: index("enrollments_class_id_idx").on(table.classId),
-//     studentClassUnique: index("enrollments_student_class_unique").on(
-//       table.studentId,
-//       table.classId
-//     ),
-//   })
-// );
+    inviteCode: varchar("invite_code", { length: 50 }).notNull().unique(),
+    name: varchar("name", { length: 255 }).notNull(),
+    bannerCldPubId: text("banner_cld_pub_id"),
+    bannerUrl: text("banner_url"),
+    capacity: integer("capacity").notNull().default(50),
+    description: text("description"),
+    status: classStatusEnum("status").notNull().default("active"),
+    schedules: jsonb("schedules").$type<any[]>().default([]).notNull(),
+    //$type<Schedule[]>().notNull(),
+
+    ...timestamps,
+  },
+  (table) => ({
+    subjectIdIdx: index("classes_subject_id_idx").on(table.subjectId),
+    teacherIdIdx: index("classes_teacher_id_idx").on(table.teacherId),
+  })
+);
+
+export const enrollments = pgTable(
+  "enrollments",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+
+    studentId: text("student_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    classId: integer("class_id")
+      .notNull()
+      .references(() => classes.id, { onDelete: "cascade" }),
+
+    ...timestamps,
+  },
+  (table) => ({
+    studentIdIdx: index("enrollments_student_id_idx").on(table.studentId),
+    classIdIdx: index("enrollments_class_id_idx").on(table.classId),
+    studentClassUnique: index("enrollments_student_class_unique").on(
+      table.studentId,
+      table.classId
+    ),
+  })
+);
 
 
 
-//now we have craeted 2 separate tables
+//now we have created 2 separate tables
 //but let us create the relation between those tables as well 3:10:50
 //==>this will craete a relation between departments and subjects
 export const departmentsRelations
@@ -143,28 +147,36 @@ export const subjectsRelations
   // classes: many(classes),
 }));
 
-// export const classesRelations = relations(classes, ({ one, many }) => ({
-//   subject: one(subjects, {
-//     fields: [classes.subjectId],
-//     references: [subjects.id],
-//   }),
-//   teacher: one(user, {
-//     fields: [classes.teacherId],
-//     references: [user.id],
-//   }),
-//   enrollments: many(enrollments),
-// }));
 
-// export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
-//   student: one(user, {
-//     fields: [enrollments.studentId],
-//     references: [user.id],
-//   }),
-//   class: one(classes, {
-//     fields: [enrollments.classId],
-//     references: [classes.id],
-//   }),
-// }));
+// ###  5:13:10 lets do similar thing to **generate DB schemas for classes and enrollments**
+// webstormproject/Prompt-Classes- Enrollments-schemas-Backend.md
+// =>it added the drizzle orm schema in our app and it has been extended with classes and enrollments as requested
+// All the changes should be in the webstormproject/classroom-backend/src/db/schema/app.ts
+export const classesRelations = relations(classes, ({ one, many }) => ({
+  subject: one(subjects, {
+    fields: [classes.subjectId],
+    references: [subjects.id],
+  }),
+  teacher: one(user, {
+    fields: [classes.teacherId],
+    references: [user.id],
+  }),
+  enrollments: many(enrollments),
+}));
+
+export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
+  student: one(user, {
+    fields: [enrollments.studentId],
+    references: [user.id],
+  }),
+  class: one(classes, {
+    fields: [enrollments.classId],
+    references: [classes.id],
+  }),
+}));
+
+
+
 
 //let TS know what we just did 3:13:26
 
@@ -177,8 +189,13 @@ export type NewDepartment = typeof departments.$inferInsert;//3:13:58 when we re
 export type Subject = typeof subjects.$inferSelect;
 export type NewSubject = typeof subjects.$inferInsert;
 
-// export type Class = typeof classes.$inferSelect;
-// export type NewClass = typeof classes.$inferInsert;
-//
-// export type Enrollment = typeof enrollments.$inferSelect;
-// export type NewEnrollment = typeof enrollments.$inferInsert;
+
+
+
+
+
+export type Class = typeof classes.$inferSelect;
+export type NewClass = typeof classes.$inferInsert;
+
+export type Enrollment = typeof enrollments.$inferSelect;
+export type NewEnrollment = typeof enrollments.$inferInsert;
