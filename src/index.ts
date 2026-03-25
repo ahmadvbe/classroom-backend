@@ -1,6 +1,8 @@
-// import('apminsight')
-//   .then(({ default: AgentAPI }) => AgentAPI.config())
-//   .catch(() => console.log('APM not available in this environment'));
+//5:58:25
+import('apminsight')
+  .then(({ default: AgentAPI }) =>
+            AgentAPI.config()) //this will confirm the agent that will run our performance monitoring 5:58:40
+  .catch(() => console.log('APM not available in this environment'));
 
 //webstormproject/classroom-backend/src/index.ts  with junie 2:56:55
 // @ts-ignore
