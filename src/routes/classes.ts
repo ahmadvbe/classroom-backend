@@ -2,7 +2,7 @@ import express from "express";
 import { and, desc, eq, getTableColumns, ilike, or, sql } from "drizzle-orm";
 
 import { db } from "../db/index.js";//complete extension 6:12:35
-import { classes, departments, enrollments, subjects, user } from "../db/schema";
+import { classes, departments, enrollments, subjects, user } from "../db/schema/index.js";
 
 const router = express.Router();
 
