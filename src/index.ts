@@ -12,14 +12,14 @@ import cors from "cors";
 
 import { toNodeHandler } from "better-auth/node";
 
-import subjectsRouter from "./routes/subjects.js";
+import subjectsRouter from "./routes/subjects.js"; //railway BE deployment issue 6:03:30  we need to add .js and not ts becz node neevr executes TS
 import usersRouter from "./routes/users.js";
 import classesRouter from "./routes/classes.js";
 import departmentsRouter from "./routes/departments.js";
 import statsRouter from "./routes/stats.js";
 import enrollmentsRouter from "./routes/enrollments.js";
 
-import securityMiddleware from "./middleware/security.js";
+import securityMiddleware from "./middleware/security.js";//railway BE deployment issue 6:03:30  we need to add .js and not ts becz node neevr executes TS
 import { auth } from "./lib/auth.js";
 
 
