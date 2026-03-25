@@ -1,7 +1,7 @@
 import express from "express";
 import { and, desc, eq, getTableColumns, ilike, or, sql } from "drizzle-orm";
 
-import { db } from "../db";
+import { db } from "../db/index.js";//complete extension 6:12:35
 import { classes, departments, enrollments, subjects, user } from "../db/schema";
 
 const router = express.Router();
@@ -79,10 +79,13 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+//6:10:34 webstormproject/classroom-backend/src/routes/classes.ts
+//     Post req for submitting a class
 router.post("/", async (req, res) => {
   try {
-    const {
-      name,
+    const { //DESTRUCT ALL THE PROPERTIES BEING PASSED FROM FE TO BE USING THE FORM 6:11:50
+      name, //6:12:00
       teacherId,
       subjectId,
       capacity,
@@ -92,11 +95,13 @@ router.post("/", async (req, res) => {
       bannerCldPubId,
     } = req.body;
 
+    //use of those properties to created a class
+    //destruct the created class at our db by calling it
     const [createdClass] = await db
-      .insert(classes)
-      .values({
+      .insert(classes) //insert into the classes table
+      .values({ //6:13:00 all the values coming from req.body:  ...req.body
         subjectId,
-        inviteCode: Math.random().toString(36).substring(2, 9),
+        inviteCode: Math.random().toString(36).substring(2, 9), //6:13:20
         name,
         teacherId,
         bannerCldPubId,
@@ -106,12 +111,12 @@ router.post("/", async (req, res) => {
         schedules: [],
         status,
       })
-      .returning({ id: classes.id });
+      .returning({ id: classes.id });//request wt to get back 6:14:00
 
-    if (!createdClass) throw Error;
+    if (!createdClass) throw Error; //if there is no created class
 
-    res.status(201).json({ data: createdClass });
-  } catch (error) {
+    res.status(201).json({ data: createdClass }); //else if ok return a code where we set the data also to createdClass
+  } catch (error) { //6:11:09
     console.error("POST /classes error:", error);
     res.status(500).json({ error: "Failed to create class" });
   }

@@ -63,12 +63,21 @@ app.use(securityMiddleware);
 
 //  3:33:16 src/index.ts
 //            create a new router for the subjects:
-app.use("/api/subjects",
-        subjectsRouter //src/routes/subjects.ts
+app.use("/api/subjects", subjectsRouter //src/routes/subjects.ts
             );
 
-// app.use("/api/users", usersRouter);
-// app.use("/api/classes", classesRouter);
+// - get routes for users, classes, antg
+//     prompt: webstormproject/Prompt-GET Classes-Backend.md
+// 6:09:10 webstormproject/classroom-frontend/src/pages/subjects/list.tsx
+// 6:09:42 JUNIE EAP added users.ts for getting the users
+// and made a change to index.ts where it added the API route for the users
+// webstormproject/classroom-backend/src/index.ts
+app.use("/api/users", usersRouter);
+
+//6:10:34 webstormproject/classroom-backend/src/routes/classes.ts
+//     Post req for submitting a class
+// 6:15:00 use of the classes.ts within our Server
+app.use("/api/classes", classesRouter);
 // app.use("/api/departments", departmentsRouter);
 // app.use("/api/stats", statsRouter);
 // app.use("/api/enrollments", enrollmentsRouter);

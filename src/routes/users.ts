@@ -7,6 +7,9 @@ import { classes, departments, enrollments, subjects, user } from "../db/schema"
 const router = express.Router();
 
 // Get all users with optional search, role filter, and pagination
+//       6:09:50 BE Express also follows like refine a
+//       very clearly defined struct for fetching the data with optional search , filtering , and pagination
+
 router.get("/", async (req, res) => {
   try {
     const { search, role, page = 1, limit = 10 } = req.query;
