@@ -1,5 +1,5 @@
 // Ensure the type.d.ts file is included by tsconfig.json
-// Your tsconfig "include" currently lists only "../../../jsm-files/classroom-backend-main/src".
+// Your tsconfig "include" currently lists only "../classroom-backend-main/src".
 //     If your project source files (including src/type.d.ts) are outside that include, TypeScript won't see them.
 
 

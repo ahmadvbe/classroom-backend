@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx ../../../jsm-files/classroom-backend-main/seed/seed.ts"
+    "db:seed": "tsx ../classroom-backend/seed/seed.ts"
   },
   "keywords": [],
   "author": "",

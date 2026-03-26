@@ -6,6 +6,7 @@ import { classes, departments, enrollments, subjects, user } from "../db/schema/
 
 const router = express.Router();
 
+//webstormproject/classroom-backend/src/routes/classes.ts 6:40:55
 // Get all classes with optional search, subject, teacher filters, and pagination
 router.get("/", async (req, res) => {
   try {
@@ -46,6 +47,7 @@ router.get("/", async (req, res) => {
 
     const totalCount = countResult[0]?.count ?? 0;
 
+    //here we re diving into a more complex DB  struct 6:41:12
     const classesList = await db
       .select({
         ...getTableColumns(classes),
