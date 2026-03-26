@@ -78,9 +78,16 @@ app.use("/api/users", usersRouter);
 //     Post req for submitting a class
 // 6:15:00 use of the classes.ts within our Server
 app.use("/api/classes", classesRouter);
-// app.use("/api/departments", departmentsRouter);
-// app.use("/api/stats", statsRouter);
-// app.use("/api/enrollments", enrollmentsRouter);
+
+//7:28:00 Refine AI Website Implementation
+app.use("/api/departments", departmentsRouter);
+app.use("/api/stats", statsRouter);
+app.use("/api/enrollments", enrollmentsRouter);
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Backend server is running!");
