@@ -79,6 +79,7 @@ router.post("/", async (req, res) => {
       .values({ code, name, description })
       .returning({ id: departments.id });
 
+    console.log("createdDepartment", createdDepartment);
     if (!createdDepartment) throw Error;
 
     res.status(201).json({ data: createdDepartment });
