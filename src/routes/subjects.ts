@@ -4,11 +4,11 @@ import { eq, ilike, or, and, desc, sql, getTableColumns } from "drizzle-orm";
 
 import { db } from "../db/index.js";
 import {
-//        classes,
+        classes,
         departments,
-//        enrollments,
+        enrollments,
         subjects,
-//        user
+        user
 } from "../db/schema/index.js";
 //3:25:08 src/routes/subjects.ts
 const router = express.Router();
